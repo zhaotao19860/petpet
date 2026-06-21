@@ -1,0 +1,14 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="petpet宠物星球 logo">
+  <rect width="128" height="128" rx="30" fill="#F7F2D9"/>
+  <circle cx="64" cy="65" r="39" fill="#78C98E"/>
+  <path d="M29 73C45 50 80 43 104 55" stroke="#3D7DB8" stroke-width="9" stroke-linecap="round"/>
+  <path d="M24 70C38 82 66 90 102 76" stroke="#F8E7A1" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="47" cy="56" r="6" fill="#26352F"/>
+  <circle cx="80" cy="56" r="6" fill="#26352F"/>
+  <path d="M55 74C60 79 69 79 74 74" stroke="#26352F" stroke-width="5" stroke-linecap="round"/>
+  <path d="M42 34C35 24 26 27 26 39C27 50 39 48 45 42" fill="#F5A55B"/>
+  <path d="M86 34C93 24 102 27 102 39C101 50 89 48 83 42" fill="#F5A55B"/>
+  <path d="M39 95C49 104 78 107 91 94" stroke="#446B53" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="99" cy="28" r="5" fill="#FFD66B"/>
+  <circle cx="25" cy="101" r="4" fill="#5B9ED3"/>
+</svg>
