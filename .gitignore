@@ -1,0 +1,37 @@
+# Local secrets
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+web/node_modules/
+server/node_modules/
+
+# Build outputs and caches
+.build/
+dist/
+web/dist/
+server/dist/
+web/.cache/
+*.tsbuildinfo
+web/vite.config.js
+web/vite.config.d.ts
+.playwright-cli/
+.venv*/
+output/
+tmp/
+
+# Local work artifacts
+images/
+web/public/assets/animals/**/*.png
+.comate/
+.superpowers/
+.superpowers/brainstorm/
+.superpowers/screenshots/
+.DS_Store
+*.log
+
+# OS/editor
+.idea/
+.vscode/

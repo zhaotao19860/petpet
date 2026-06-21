@@ -1,0 +1,168 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String           @id @default(uuid())
+  username     String           @unique
+  passwordHash String
+  displayName  String
+  selectedPetId String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  sessions     Session[]
+  pets         Pet[]
+  achievements Achievement[]
+  dailyQuests  DailyQuest[]
+  requestedFriendships Friendship[] @relation("FriendshipRequester")
+  receivedFriendships  Friendship[] @relation("FriendshipAddressee")
+  visitsMade   PetVisit[]       @relation("VisitVisitor")
+  visitsOwned  PetVisit[]       @relation("VisitOwner")
+  interactionsMade  PetInteraction[] @relation("InteractionActor")
+  interactionsOwned PetInteraction[] @relation("InteractionOwner")
+  soundClips   PetSoundClip[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model Pet {
+  id              String   @id @default(uuid())
+  userId          String
+  animalTypeId    String
+  name            String
+  birthday        DateTime
+  lastUpdatedAt   DateTime
+  speedMultiplier Float    @default(1)
+  mood            String
+  hunger          Float
+  thirst          Float
+  energy          Float
+  happiness       Float
+  health          Float
+  hygiene         Float
+  stress          Float
+  isSick          Boolean  @default(false)
+  outfitIds       Json     @default("[]")
+  friendIds       Json     @default("[]")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dailyQuests     DailyQuest[]
+  visits          PetVisit[]
+  interactions    PetInteraction[]
+  soundClips      PetSoundClip[]
+
+  @@index([userId])
+}
+
+model PetSoundClip {
+  id           String   @id @default(uuid())
+  userId       String
+  petId        String
+  animalTypeId String
+  soundType    String
+  label        String?
+  mimeType     String
+  filePath     String
+  fileSize     Int
+  durationMs   Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pet          Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
+
+  @@unique([petId, soundType])
+  @@index([userId])
+  @@index([petId])
+}
+
+model Achievement {
+  id            String   @id @default(uuid())
+  userId        String
+  achievementId String
+  unlockedAt    DateTime?
+  createdAt     DateTime @default(now())
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+  @@index([userId])
+}
+
+model DailyQuest {
+  id        String   @id @default(uuid())
+  userId    String
+  petId     String
+  dateKey   String
+  stepsJson Json
+  stars     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pet       Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
+
+  @@unique([petId, dateKey])
+  @@index([userId])
+  @@index([petId])
+}
+
+model Friendship {
+  id          String   @id @default(uuid())
+  requesterId String
+  addresseeId String
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  requester   User     @relation("FriendshipRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  addressee   User     @relation("FriendshipAddressee", fields: [addresseeId], references: [id], onDelete: Cascade)
+
+  @@unique([requesterId, addresseeId])
+  @@index([requesterId])
+  @@index([addresseeId])
+}
+
+model PetVisit {
+  id        String   @id @default(uuid())
+  visitorId String
+  ownerId   String
+  petId     String
+  createdAt DateTime @default(now())
+  visitor   User     @relation("VisitVisitor", fields: [visitorId], references: [id], onDelete: Cascade)
+  owner     User     @relation("VisitOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  pet       Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
+
+  @@index([visitorId])
+  @@index([ownerId])
+  @@index([petId])
+}
+
+model PetInteraction {
+  id        String   @id @default(uuid())
+  actorId   String
+  ownerId   String
+  petId     String
+  kind      String
+  dayKey    String
+  createdAt DateTime @default(now())
+  actor     User     @relation("InteractionActor", fields: [actorId], references: [id], onDelete: Cascade)
+  owner     User     @relation("InteractionOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  pet       Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
+
+  @@unique([actorId, petId, kind, dayKey])
+  @@index([actorId])
+  @@index([ownerId])
+  @@index([petId])
+}
