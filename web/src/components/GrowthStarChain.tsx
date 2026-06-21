@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { AnimalType } from '../models/animal';
 import { TOTAL_GROWTH_DAYS } from '../models/growth';
+import { SafeImage } from './SafeImage';
 import { playStarBuddySound } from '../utils/petSounds';
 
 const RECENT_GROWTH_DAYS = 10;
@@ -112,7 +113,7 @@ export function GrowthStarChain({ animal, currentDay }: { animal: AnimalType; cu
         <div className={`growth-star-preview ${expandedRevealed ? 'revealed' : 'locked'}`} aria-live="polite">
           <div className="growth-star-preview-art">
             {expandedRevealed && expandedImage ? (
-              <img src={expandedImage.url} alt={`${animal.name}第${expandedDay}天`} />
+              <SafeImage src={expandedImage.url} alt={`${animal.name}第${expandedDay}天`} />
             ) : (
               <span aria-hidden="true">★</span>
             )}

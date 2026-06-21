@@ -13,6 +13,7 @@ export function buildImageFallbacks(src?: string) {
     fallbacks.push(fullSizePrimary);
   }
   if (/\.webp($|\?)/.test(fullSizePrimary)) {
+    fallbacks.push(fullSizePrimary.replace(/\/([^/]+\.webp)$/, '/thumbs/$1'));
     fallbacks.push(fullSizePrimary.replace(/\.webp($|\?)/, '.png$1'));
     fallbacks.push(fullSizePrimary.replace(/\.webp($|\?)/, '.svg$1'));
   }

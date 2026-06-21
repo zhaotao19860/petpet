@@ -3,6 +3,7 @@ import { categoryLabels, type AnimalType } from '../models/animal';
 import type { PetInstance } from '../models/pet';
 import { getAgeImage, getCurrentGrowthStage, getEffectiveAgeDays } from '../models/growth';
 import { FactCards } from '../components/FactCards';
+import { SafeImage } from '../components/SafeImage';
 import { getChallengeSet } from '../utils/challenges';
 import { playQuizFeedbackSound } from '../utils/petSounds';
 
@@ -75,7 +76,7 @@ export function StoryLearnPage({ animal, pet, onLearn }: { animal: AnimalType; p
       </div>
 
       <article className="encyclopedia-card">
-        <img className="encyclopedia-hero-image" src={heroImage} alt={`${animal.name}${stage.name}`} />
+        <SafeImage className="encyclopedia-hero-image" src={heroImage} alt={`${animal.name}${stage.name}`} />
         <div className="encyclopedia-body">
           <div className="encyclopedia-title-row">
             <h2>{animal.name} <span>/ {animal.scientificName ?? animal.id}</span></h2>
